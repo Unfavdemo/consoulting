@@ -24,7 +24,19 @@ export async function POST(request) {
     }
 
     // Get database connection
-    const sql = getSql()
+    let sql
+    try {
+      sql = getSql()
+    } catch (dbConnectionError) {
+      console.error('Database connection error:', dbConnectionError)
+      return NextResponse.json(
+        {
+          error: 'Database connection not configured. Please add DATABASE_URL to your .env.local file.',
+          details: dbConnectionError.message
+        },
+        { status: 500 }
+      )
+    }
 
     // Save to database
     try {
@@ -80,6 +92,8 @@ export async function POST(request) {
     )
   } catch (error) {
     console.error('Error processing contact form:', error)
+    console.error('Error stack:', error.stack)
+    console.error('Error message:', error.message)
     
     // Handle JSON parsing errors
     if (error instanceof SyntaxError) {
@@ -89,8 +103,13 @@ export async function POST(request) {
       )
     }
     
+    // In development, show more details
+    const errorMessage = process.env.NODE_ENV === 'development' 
+      ? `Failed to process your message: ${error.message}` 
+      : 'Failed to process your message. Please try again later.'
+    
     return NextResponse.json(
-      { error: 'Failed to process your message. Please try again later.' },
+      { error: errorMessage },
       { status: 500 }
     )
   }
