@@ -22,16 +22,25 @@ const projects = [
   },
   {
     id: 2,
-    title: 'Project Name',
-    description: 'Brief description of what this project does. Add more details about the features and functionality of your project here.',
-    image: null,
-    tech: ['JavaScript', 'React'],
+    title: 'Workshop Tracker',
+    description: 'A time tracking and data management dashboard built with Next.js for monitoring workshop creation, student communication, and AI usage analytics. It includes workshop management, communication analytics, email tracking, AI usage tracking, ChatGPT integration, time tracking, case notes, student management, performance metrics, and Google Calendar integration.',
+    image: '/Screenshot 2026-01-02 001714.png',
+    tech: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'Radix UI', 'Recharts', 'Google APIs', 'OpenAI API', 'Lucide React', 'React Hook Form', 'Zod', 'date-fns', 'Sonner', 'next-themes'],
     details: [
-      'Feature 1 description',
-      'Feature 2 description',
-      'Feature 3 description'
+      'Workshop management with statistics and dynamic form builder',
+      'Real-time communication analytics across multiple channels',
+      'Gmail integration for email tracking',
+      'Comprehensive AI usage tracking and efficiency metrics',
+      'Built-in ChatGPT interface for AI-assisted workshop creation',
+      'Time tracking for workshops and activities',
+      'Case notes management system',
+      'Student feedback and calendar management',
+      'Performance metrics and productivity scores',
+      'Dark/light theme support',
+      'Responsive design',
+      'Data export functionality'
     ],
-    url: 'https://project2.example.com'
+    url: 'https://work-tracker-58fblkhh5-siquil-wards-projects.vercel.app'
   },
   {
     id: 3,
