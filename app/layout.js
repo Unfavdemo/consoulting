@@ -3,7 +3,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
 export const metadata = {
-  title: 'My Portfolio',
+  title: 'DemoTech',
   description: 'A Next.js portfolio website showcasing my projects and skills',
 }
 
