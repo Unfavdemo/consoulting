@@ -40,7 +40,7 @@ const projects = [
       'Responsive design',
       'Data export functionality'
     ],
-    url: 'https://work-tracker-58fblkhh5-siquil-wards-projects.vercel.app'
+    url: 'https://work-tracker-sooty.vercel.app'
   },
   {
     id: 3,
