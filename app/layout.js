@@ -1,6 +1,7 @@
 import './globals.css'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import { AdminProvider } from './contexts/AdminContext'
 
 export const metadata = {
   title: 'DemoTech',
@@ -34,13 +35,15 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-white dark:bg-black text-black dark:text-white">
-        <Navbar />
-        
-        <main className="flex-grow">
-          {children}
-        </main>
-        
-        <Footer />
+        <AdminProvider>
+          <Navbar />
+          
+          <main className="flex-grow">
+            {children}
+          </main>
+          
+          <Footer />
+        </AdminProvider>
       </body>
     </html>
   )

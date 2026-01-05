@@ -23,13 +23,13 @@ export default function ProjectModal({ project, isOpen, onClose }) {
       onClick={onClose}
     >
       <div 
-        className="bg-white dark:bg-gray-900 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-800"
+        className="bg-white dark:bg-gray-950 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl font-bold z-10 bg-white dark:bg-gray-800 rounded-full w-8 h-8 flex items-center justify-center"
+          className="absolute top-4 right-4 text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white text-2xl font-bold z-10 bg-white dark:bg-gray-900 rounded-full w-8 h-8 flex items-center justify-center border border-gray-200 dark:border-gray-700"
           aria-label="Close"
         >
           ×

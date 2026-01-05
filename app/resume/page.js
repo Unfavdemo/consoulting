@@ -1,17 +1,95 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { EditableText, EditableTextarea } from '../components/EditableContent'
+
+const DEFAULT_CONTENT = {
+  name: 'Siquil J. Ward',
+  contact: 'Philadelphia, PA | (267) 338-5848 | siquilward221@gmail.com',
+  summary: 'Junior developer with over 200 hours of hands-on Python experience through Launchpad Philly, specializing in user-centered design, problem-solving, and collaborative project development. Skilled in Python programming, Figma design, and applying technical knowledge to real-world community projects. Demonstrated leadership through mentoring, team coordination, and public presentations that effectively engage diverse audiences.'
+}
 
 export default function Resume() {
+  const [content, setContent] = useState(DEFAULT_CONTENT)
+  const [pageTitle, setPageTitle] = useState('Resume')
+  const [summaryTitle, setSummaryTitle] = useState('SUMMARY')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('/api/content?page=resume')
+        if (response.ok) {
+          const data = await response.json()
+          if (Object.keys(data).length > 0) {
+            setContent({ ...DEFAULT_CONTENT, ...data })
+          }
+          if (data.title) {
+            setPageTitle(data.title)
+          }
+          if (data.summaryTitle) {
+            setSummaryTitle(data.summaryTitle)
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching content:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchContent()
+  }, [])
+
+  const updateContent = (key, value) => {
+    setContent(prev => ({ ...prev, [key]: value }))
+  }
+
+  const updatePageTitle = async (value) => {
+    setPageTitle(value)
+    try {
+      await fetch('/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: 'resume', key: 'title', value })
+      })
+    } catch (error) {
+      console.error('Error saving title:', error)
+    }
+  }
+
+  const updateSummaryTitle = async (value) => {
+    setSummaryTitle(value)
+    try {
+      await fetch('/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: 'resume', key: 'summaryTitle', value })
+      })
+    } catch (error) {
+      console.error('Error saving summary title:', error)
+    }
+  }
+
   return (
     <div className="min-h-screen p-8 bg-white dark:bg-black">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold mb-8 text-black dark:text-white animate-slide-down">Resume</h1>
+        <h1 className="text-5xl font-bold mb-8 text-black dark:text-white animate-slide-down">
+          <EditableText page="resume" contentKey="title" onSave={updatePageTitle} tag="span">
+            {pageTitle}
+          </EditableText>
+        </h1>
         
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-8 border border-gray-100 dark:border-gray-800 animate-fade-in">
+        <div className="bg-white dark:bg-gray-950 rounded-lg shadow-sm p-8 border border-gray-100 dark:border-gray-700 animate-fade-in">
           {/* Header */}
           <header className="mb-8 text-center">
-            <h2 className="text-3xl font-bold mb-4 text-black dark:text-white">Siquil J. Ward</h2>
+            <h2 className="text-3xl font-bold mb-4 text-black dark:text-white">
+              <EditableText page="resume" contentKey="name" onSave={(v) => updateContent('name', v)}>{content.name}</EditableText>
+            </h2>
             <div className="text-gray-600 dark:text-gray-400 text-sm space-y-1">
-              <p>Philadelphia, PA | (267) 338-5848 | siquilward221@gmail.com</p>
+              <div>
+                <EditableText page="resume" contentKey="contact" onSave={(v) => updateContent('contact', v)}>{content.contact}</EditableText>
+              </div>
               <div className="flex justify-center gap-4">
                 <Link href="https://github.com/" target="_blank" rel="noopener noreferrer" className="text-green-500 dark:text-red-500 hover:text-green-600 dark:hover:text-red-600 transition-colors">
                   GitHub
@@ -25,10 +103,14 @@ export default function Resume() {
 
           {/* Summary */}
           <section className="mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-black dark:text-white border-b-2 border-green-500 dark:border-red-500 pb-2">SUMMARY</h2>
-            <p className="text-black dark:text-white leading-relaxed">
-              Junior developer with over 200 hours of hands-on Python experience through Launchpad Philly, specializing in user-centered design, problem-solving, and collaborative project development. Skilled in Python programming, Figma design, and applying technical knowledge to real-world community projects. Demonstrated leadership through mentoring, team coordination, and public presentations that effectively engage diverse audiences.
-            </p>
+            <h2 className="text-3xl font-bold mb-6 text-black dark:text-white border-b-2 border-green-500 dark:border-red-500 pb-2">
+              <EditableText page="resume" contentKey="summaryTitle" onSave={updateSummaryTitle} tag="span">
+                {summaryTitle}
+              </EditableText>
+            </h2>
+            <div className="text-black dark:text-white leading-relaxed">
+              <EditableTextarea page="resume" contentKey="summary" onSave={(v) => updateContent('summary', v)}>{content.summary}</EditableTextarea>
+            </div>
           </section>
 
           {/* Technical Skills */}

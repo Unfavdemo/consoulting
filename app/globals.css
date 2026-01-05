@@ -11,6 +11,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Enhanced dark mode contrast */
+.dark body {
+  color: #ffffff;
+  background: #000000;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 dark:bg-black text-black dark:text-white text-center p-8 mt-auto border-t border-gray-200 dark:border-gray-800">
+    <footer className="bg-gray-100 dark:bg-gray-950 text-black dark:text-white text-center p-8 mt-auto border-t border-gray-200 dark:border-gray-700">
       <div className="max-w-6xl mx-auto">
         {/* Social Media Icons */}
         <div className="flex justify-center gap-6 mb-6">

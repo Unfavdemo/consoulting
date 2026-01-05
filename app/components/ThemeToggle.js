@@ -28,16 +28,24 @@ export default function ThemeToggle() {
     // Initial sync
     syncTheme()
 
+    // Listen for theme changes from other tabs/windows
     const handleStorageChange = (e) => {
       if (e.key === 'theme') {
         syncTheme()
       }
     }
 
+    // Listen for custom theme change events
+    const handleThemeChange = (e) => {
+      setIsDark(e.detail.isDark)
+    }
+
     window.addEventListener('storage', handleStorageChange)
+    window.addEventListener('themechange', handleThemeChange)
 
     return () => {
       window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('themechange', handleThemeChange)
     }
   }, [])
 
@@ -46,6 +54,7 @@ export default function ThemeToggle() {
     const currentIsDark = html.classList.contains('dark')
     const newIsDark = !currentIsDark
     
+    // Update DOM immediately
     if (newIsDark) {
       html.classList.add('dark')
       localStorage.setItem('theme', 'dark')
@@ -55,6 +64,9 @@ export default function ThemeToggle() {
     }
     
     setIsDark(newIsDark)
+    
+    // Dispatch custom event for other components to listen to
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { isDark: newIsDark } }))
   }
 
   if (!mounted) {
@@ -74,7 +86,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+      className="p-2 rounded-lg bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors border border-gray-300 dark:border-gray-700"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       type="button"
     >
